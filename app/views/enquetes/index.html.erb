@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Enquetes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Place</th>
+      <th>Job</th>
+      <th>Machine</th>
+      <th>User</th>
+      <th>Motivation</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @enquetes.each do |enquete| %>
+      <tr>
+        <td><%= enquete.sex %></td>
+        <td><%= enquete.age %></td>
+        <td><%= enquete.place %></td>
+        <td><%= enquete.job %></td>
+        <td><%= enquete.machine %></td>
+        <td><%= enquete.user_id %></td>
+        <td><%= enquete.motivation %></td>
+        <td><%= link_to 'Show', enquete %></td>
+        <td><%= link_to 'Edit', edit_enquete_path(enquete) %></td>
+        <td><%= link_to 'Destroy', enquete, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Enquete', new_enquete_path %>

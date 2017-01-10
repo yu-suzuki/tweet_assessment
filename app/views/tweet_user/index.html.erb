@@ -1,0 +1,18 @@
+<%= paginate @users %>
+
+<table class="table table-striped">
+  <tr>
+    <th>名前</th>
+    <th>回数</th>
+  </tr>
+
+  <% @users.each do |u| %>
+      <tr>
+        <td><%= link_to u.user_name+'('+u.screen_name+')', u %></td>
+      <td><%= u.tweets.count %></td>
+      </tr>
+
+  <% end %>
+</table>
+
+<%= paginate @users %>

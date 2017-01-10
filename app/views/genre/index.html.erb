@@ -1,0 +1,19 @@
+<h1>進行状況</h1>
+<table class="table table-hover">
+  <% @genres.each do |g| %>
+  <tr>
+    <td>
+      <%= link_to g.genre_name, genre_show_path(:genre_id => g.id) %>
+    </td>
+    <td>
+      <%= g.tweets.where(:evaluation_count => 5).count %>
+    </td>
+    <td>
+      <%= g.tweets.count %>
+    </td>
+    <td>
+      <%= ((g.tweets.where(:evaluation_count => 5).count.to_f / g.tweets.count.to_f)*100).round(2) %>%
+    </td>
+  </tr>
+  <% end %>
+</table>

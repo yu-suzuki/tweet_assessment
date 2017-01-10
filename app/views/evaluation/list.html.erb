@@ -1,0 +1,25 @@
+<h2>評価一覧</h2>
+
+
+<%= paginate @evaluations %>
+
+<table class="table table-striped">
+  <tr>
+    <th>tweet</th>
+    <th>user</th>
+    <th>start_at</th>
+    <th>end_at</th>
+    <th>経過時間(秒)</th>
+  </tr>
+  <% @evaluations.each do |e| %>
+  <tr>
+    <td><%= e.tweet.tweet %></td>
+    <td><%= link_to e.user.username, e.user %></td>
+    <td><%= e.start_at %></td>
+    <td><%= e.end_at %></td>
+    <td><%= e.elapsed %></td>
+  </tr>
+  <% end %>
+</table>
+
+<%= paginate @evaluations %>

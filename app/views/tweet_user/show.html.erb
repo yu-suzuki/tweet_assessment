@@ -1,0 +1,48 @@
+<h1><%= @user.user_name %></h1>
+<h3><%= @user.screen_name %></h3>
+
+<%= paginate @entries %>
+
+<table class="table table-striped">
+  <tr>
+    <th>Genre</th>
+    <th>Tweet</th>
+    <th>decision</th>
+    <th>PN</th>
+    <th>P</th>
+    <th>N</th>
+    <th>Ne</th>
+    <th>NA</th>
+
+  </tr>
+  <% @entries.each do |e| %>
+      <tr>
+        <td><%= e.genre.genre_name %></td>
+        <td><%= e.tweet %></td>
+        <td>
+          <% if e.pn_flag %>
+              <span class="tag tag-info">Pos&Neg</span>
+          <% end %>
+          <% if e.p_flag %>
+              <span class="tag tag-primary">Positive</span>
+          <% end %>
+          <% if e.n_flag %>
+              <span class="tag tag-danger">Negative</span>
+          <% end %>
+          <% if e.ne_flag %>
+              <span class="tag tag-success">Neutral</span>
+          <% end %>
+          <% if e.na_flag %>
+              <span class="tag tag-default">N/A</span>
+          <% end %>
+        </td>
+        <td><%= e.pn_count %></td>
+        <td><%= e.p_count %></td>
+        <td><%= e.n_count %></td>
+        <td><%= e.ne_count %></td>
+        <td><%= e.na_count %></td>
+      </tr>
+  <% end %>
+</table>
+
+<%= paginate @entries %>

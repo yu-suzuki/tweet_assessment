@@ -1,0 +1,61 @@
+<h1><%= @genre.genre_name %></h1>
+
+<ul>
+  <li><%= link_to '全部', genre_show_path(:genre_id => @genre.id) %></li>
+  <li><%= link_to 'ポジティブ&ネガティブ', genre_show_path(:genre_id => @genre.id, :category => :pn) %></li>
+  <li><%= link_to 'ポジティブ', genre_show_path(:genre_id => @genre.id, :category => :p) %></li>
+  <li><%= link_to 'ネガティブ', genre_show_path(:genre_id => @genre.id, :category => :n) %></li>
+  <li><%= link_to 'どちらでもない', genre_show_path(:genre_id => @genre.id, :category => :ne) %></li>
+  <li><%= link_to 'その他', genre_show_path(:genre_id => @genre.id, :category => :na) %></li>
+</ul>
+
+
+<% if @entries.nil? %>
+    <p>ありません</p>
+<% else %>
+
+    <%= paginate @entries %>
+
+    <table class="table table-striped">
+      <tr>
+        <th>Tweet</th>
+        <th>decision</th>
+        <th>PN</th>
+        <th>P</th>
+        <th>N</th>
+        <th>Ne</th>
+        <th>NA</th>
+
+      </tr>
+      <% @entries.each do |e| %>
+          <tr>
+            <td><%= e.tweet %></td>
+            <td>
+              <% if e.pn_flag %>
+                  <span class="tag tag-info">Pos&Neg</span>
+              <% end %>
+              <% if e.p_flag %>
+                  <span class="tag tag-primary">Positive</span>
+              <% end %>
+              <% if e.n_flag %>
+                  <span class="tag tag-danger">Negative</span>
+              <% end %>
+              <% if e.ne_flag %>
+                  <span class="tag tag-success">Neutral</span>
+              <% end %>
+              <% if e.na_flag %>
+                  <span class="tag tag-default">N/A</span>
+              <% end %>
+            </td>
+            <td><%= e.pn_count %></td>
+            <td><%= e.p_count %></td>
+            <td><%= e.n_count %></td>
+            <td><%= e.ne_count %></td>
+            <td><%= e.na_count %></td>
+          </tr>
+      <% end %>
+    </table>
+
+    <%= paginate @entries %>
+
+<% end %>

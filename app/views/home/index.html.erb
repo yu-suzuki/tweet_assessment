@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-md-12">
+    <h1><%= current_user.username %>さん</h1>
+    <% if current_user.team == 0 %>
+        <p>
+          <b><%= current_user.evaluations.count %>個</b>の作業が終了しました．
+        </p>
+    <% elsif current_user.team == 1 || current_user.team == 2 %>
+        <p>
+          <b><%= current_user.points.count %>pt</b>獲得しました．
+          <%= current_user.evaluations.count %>個の作業が終了しました．
+        </p>
+    <% elsif current_user.team == 3 || current_user.team == 4 || current_user.team == 5 %>
+        <p>
+          <b><%= current_user.point %>pt</b>獲得しました．
+          <%= current_user.evaluations.count %>個の作業が終了しました．
+        </p>
+    <% end %>
+    <% if current_user.team == 3 || current_user.team == 5 %>
+        <p>STAR:
+          <% current_user.star.times do %>⭐️
+              <% end %><%= current_user.star * 20 %>%多くポイントが貯まります．</p>
+    <% end %>
+    <% if current_user.team == 4 || current_user.team == 5 %>
+        <p>RED CARD:
+          <% current_user.red_card.times do %>❌
+              <% end %><%= current_user.red_card %>人があなたの判定に問題があると言っています．</p></p>
+    <% end %>
+    <% if current_user.locked == false %>
+        <p><%= @doing_count %>人が現在作業中です．</p>
+        <% if current_user.practice %>
+            <p><%= link_to "作業開始", new_evaluation_path, :class => "btn btn-primary btn-lg" %></p>
+        <% else %>
+            <p><%= link_to "作業説明", home_practice_path, :class => "btn btn-primary btn-lg" %></p>
+
+        <% end %>
+        <br>
+        <br>
+        <p><%= link_to '作業目的の説明', home_practice_path %></p>
+        <% if current_user.admin %><p><%= link_to '管理者モード', admin_index_path %></p>
+        <% end %>
+
+    <% end %>
+  </div>
+</div>
+
+<div class="col-lg-6">
+  <h3>他ユーザからの意見</h3>
+  <ul>
+    <% @to_red_cards.each do |r| %>
+        <li><%= r.comment %>(<%= r.updated_at %>)</li>
+    <% end %>
+  </ul>
+</div>

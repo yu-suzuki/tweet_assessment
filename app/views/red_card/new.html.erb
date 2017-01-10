@@ -1,0 +1,71 @@
+<h1>他の作業者を評価</h1>
+<p>この作業は5ポイントです</p>
+<p>この作業者の作業を評価してください．</p>
+
+<ul>
+  <li><span class="tag tag-info">良&悪</span>:良いことも悪いことも書かれている</li>
+  <li><span class="tag tag-primary">良</span>:良いことが書かれている</li>
+  <li><span class="tag tag-danger">悪</span>:悪いことも書かれている</li>
+  <li><span class="tag tag-success">不明</span>:良い悪いの判断ができない．もしくは良い悪いと感じているが具体的な部分がない</li>
+  <li><span class="tag tag-default">無関係</span>:関係がない</li>
+</ul>
+
+<table class="table table-striped">
+  <tr>
+    <th>対象</th>
+    <th>ある作業者の判定</th>
+    <th>ツイート</th>
+  </tr>
+  <% @target_user.evaluations.sample(10).each do |e| %>
+      <tr>
+        <td><%= e.tweet.genre.genre_name %></td>
+        <td>
+          <% if e.positive && e.negative %>
+              <span class="tag tag-info">良&悪</span>
+          <% end %>
+          <% if e.positive && !e.negative %>
+              <span class="tag tag-primary">良</span>
+          <% end %>
+          <% if !e.positive && e.negative %>
+              <span class="tag tag-danger">悪</span>
+          <% end %>
+          <% if e.neutral %>
+              <span class="tag tag-success">不明</span>
+          <% end %>
+          <% if e.na %>
+              <span class="tag tag-default">無関係</span>
+          <% end %>
+        </td>
+        <td><%= e.tweet.tweet %></td>
+      </tr>
+  <% end %>
+</table>
+
+<%= form_for @red_card, :url => {:controller => :red_card, :action => :create} do |f| %>
+    <%= f.hidden_field :from_user_id, :value => current_user.id %>
+    <%= f.hidden_field :to_user_id, :value => @target_user.id %>
+
+    <p><b>評価をお願いします</b></p>
+    <div class="radio_button">
+      <label>
+        <%= f.radio_button :evaluation, '1' %>正確に評価されているものが多い
+      </label>
+      <br>
+      <label>
+        <%= f.radio_button :evaluation, '0' %>正確なものも不正確なものもある
+      </label>
+      <br>
+      <label>
+        <%= f.radio_button :evaluation, '-1' %>不正確なものが多い
+      </label>
+    </div>
+
+    <p><b>コメントをお願いします</b></p>
+    <p>10文字以上，200文字以内でお願いします．このコメントはこの作業者が直接見ますので，なるべく丁寧な言葉でお願いします．上にある
+    作業結果を作業者は見ることができないので，この表を前提としたコメント（2番目の評価はおか
+    しい，など）は伝わりません．"「iPhone6 が使いやすい」が</p>
+    <%= f.text_area :comment, :class => "form-control", :rows => 6 %>
+
+    <br>
+    <%= f.submit '評価', :class => 'btn btn-primary' %>
+<% end %>

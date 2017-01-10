@@ -1,0 +1,133 @@
+<h1><%= @user.username %></h1>
+
+<div class="row">
+  <div class="col-sm-4 col-md-4 col-lg-4">
+    <ul>
+      <li>チーム<%= @user.team %></li>
+      <li>
+        <% if @user.team == 0 %>
+            <%= @user.point %>pt/
+            <b><%= @user.evaluations.count %>個</b></li>
+        <% else %>
+            <b><%= @user.point %>pt</b>/
+            <%= @user.evaluations.count %>個</li>
+        <% end %>
+        <li>平均:
+          <% if @user.evaluations.count > 0 %>
+              <%= @user.evaluations.average(:elapsed).round(2) %>
+          <% else %>
+              NaN
+          <% end %>
+          秒
+        </li>
+        <li>スターの数:<%= @stars.count %>
+        </li>
+        <li>STAR:
+          <% @user.star.times do %>✨
+          <% end %></li>
+        <li>RED CARD:
+          <% @user.red_card.times do %>❌
+          <% end %></li>
+        <% if @user.locked %>
+            <li><b>このユーザはロックされています</b></li>
+        <% end %>
+        </ul>
+  </div>
+  <% if @user.enquete %>
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <ul>
+          <li>
+            <% if @user.enquete.sex == 'man' %>
+                男性
+            <% else %>
+                女性
+            <% end %>
+          </li>
+          <li>
+            <% if @user.enquete.age == 17 %> -17
+            <% elsif @user.enquete.age == 25 %> 18-25
+            <% elsif @user.enquete.age == 35 %> 26-35
+            <% elsif @user.enquete.age == 45 %> 36-45
+            <% elsif @user.enquete.age == 55 %> 46-55
+            <% elsif @user.enquete.age == 65 %> 56-65
+            <% elsif @user.enquete.age == 99 %> 66-
+            <% end %>
+            才
+          </li>
+          <li>
+            <%= @user.enquete.place %>在住
+          </li>
+          <li>
+            <%= @user.enquete.job %>
+          </li>
+          <li>
+            <%= @user.enquete.machine %>
+          </li>
+          <li>
+            <%= @user.enquete.motivation %>
+          </li>
+        </ul>
+      </div>
+  <% end %>
+</div>
+
+<%= form_for(@comment, :url => {:controller => :comments, :action => :create}) do |f| %>
+    <%= f.text_area :text, :class => "form-control", :rows => 6 %>
+    <%= f.hidden_field :user_id, {:value => @user.id} %>
+    <%= f.submit '登録', :class => "btn btn-primary" %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <%= link_to 'ユーザ一覧へ戻る', users_path %>
+
+<% end %>
+<br>
+<div class="row">
+  <div class="col-lg-6">
+    <h3>他ユーザからの意見</h3>
+    <ul>
+      <% @to_red_cards.each do |r| %>
+          <li><%= r.comment %>(<%= link_to r.from_user.username, r.from_user %>)(<%= r.updated_at %>)</li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="col-lg-6">
+    <h3>他ユーザへの意見</h3>
+    <ul>
+      <% @from_red_cards.each do |r| %>
+          <li><%= r.comment %>(<%= link_to r.to_user.username, r.to_user %>)(<%= r.updated_at %>)</li>
+      <% end %>
+    </ul>
+  </div>
+  <br>
+  <br>
+</div>
+  <%= paginate @evaluations %>
+  <br>
+  <table class="table table-striped">
+    <tr>
+      <th>ツイート</th>
+      <th>Select</th>
+      <th>pt</th>
+      <th>date</th>
+    </tr>
+    <% @evaluations.each do |e| %>
+        <tr>
+          <td><%= e.tweet.tweet if e.tweet %></td>
+          <td>
+            <% if e.positive %><span class="tag tag-primary">Positive</span>
+            <% end %>
+            <% if e.negative %><span class="tag tag-danger">Negative</span>
+            <% end %>
+            <% if e.neutral %><span class="tag tag-success">Neutral</span>
+            <% end %>
+            <% if e.na %><span class="tag tag-default">N/A</span>
+            <% end %>
+          </td>
+          <td>
+            <% if e.point %>⭐️
+            <% end %></td>
+          <td><%= e.created_at %></td>
+
+        </tr>
+    <% end %>
+  </table>
+
+<%= paginate @evaluations %>

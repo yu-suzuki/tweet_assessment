@@ -1,0 +1,105 @@
+<div class="row">
+  <div class="col-md-10-offset-1 col-sm-12">
+    <br>
+    <% if current_user.team == 0 %>
+        <b><%= current_user.evaluations.count %>pt</b>あります．<br/>
+        <b><%= current_user.evaluations.count %>個</b>作業を行いました<br/>
+    <% else %>
+        <b><%= @point %>pt</b>あります．
+        <b><%= current_user.evaluations.count %>個</b>作業を行いました<br/>
+    <% end %>
+    <% if current_user.team == 3 || current_user.team == 5 %>
+        STAR:
+        <% current_user.star.times do %>⭐️
+            <% end %><%= current_user.star * 20 %>%多くポイントが貯まります．</br>
+    <% end %>
+    <% if current_user.team == 4 || current_user.team == 5 %>
+        RED CARD:
+        <% current_user.red_card.times do %>❌
+            <% end %><%= current_user.red_card %>人があなたの判定に問題があると言っています．<br>
+    <% end %>
+    </p>
+
+    <% if @evaluation.errors.any? %>
+        <div id="error_explanation" class="alert alert-danger">
+          <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
+          <ul>
+            <% @post.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+  </div>
+
+  <div class="card card-outline-primary mb-3 ">
+
+    <div class="card-block">
+      <h3 class="card-title"><%= @tweet.genre.genre_name %>に関するツイートです</h3>
+      <p class="card-text"><%= @tweet.tweet %></p>
+    </div>
+  </div>
+
+  <div class="card card-outline-primary mb-3 text-center">
+    <div class="card-block">
+      <blockquote class="card-blockquote">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+        <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
+      </blockquote>
+    </div>
+  </div>
+  <br>
+  <br>
+</div>
+
+<div class="col-md-12 col-sm-12">
+  <%= form_for @evaluation, :url => {:action => :create} do |f| %>
+      <div class="checkbox">
+        <label>
+          <%= f.check_box :positive %> <%= @tweet.genre.genre_name %>について<b>何か具体的に良い部分</b>も<b>悪い部分</b>もあると思っている
+        </label>
+      </div>
+      <br>
+      <div class="checkbox">
+        <label>
+          <%= f.check_box :positive %> <%= @tweet.genre.genre_name %>について<b>何か具体的に良い部分がある</b>と思っている
+        </label>
+      </div>
+      <br>
+      <div class="checkbox">
+        <label>
+          <%= f.check_box :negative %> <%= @tweet.genre.genre_name %>について<b>何か具体的に悪い部分がある</b>と思っている
+        </label>
+      </div>
+      <br>
+      <div class="checkbox">
+        <label>
+          <%= f.check_box :neutral %> <%= @tweet.genre.genre_name %>
+          について何か感じているが<b>良い悪いの判断ができない</b>．もしくは良い悪いと感じているが<b>具体的な部分がない</b>．
+        </label>
+      </div>
+      <br>
+      <div class="checkbox">
+        <label>
+          <%= f.check_box :na %>
+          <%= @tweet.genre.genre_name %>とはあまり<b>関係がない</b>．<b>意味がわからない</b>．<b>広告</b>など
+        </label>
+      </div>
+      <%= f.hidden_field :tweet_id, :value => @tweet.id %>
+      <%= f.hidden_field :user_id, :value => current_user.id %>
+      <br>
+      <br>
+      <%= f.submit '登録', :class => 'btn btn-primary btn-lg btn-block' %>
+  <% end %>
+
+
+  <br>
+  <br>
+  <br>
+  <p><%= link_to '作業目的の説明をもう一度見る', home_practice_path, :target => '_blank' %></p>
+  <br>
+  <br>
+  <br>
+  <%= link_to '作業終了', home_index_path %>
+
+</div>

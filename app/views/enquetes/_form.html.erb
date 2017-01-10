@@ -1,0 +1,76 @@
+<%= form_for(enquete) do |f| %>
+  <% if enquete.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= enquete.errors.count %>個のエラーがあります</h2>
+
+      <ul>
+      <% enquete.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <b><%= f.label :sex, "性別" %></b><br>
+    <label>
+    <%= f.radio_button :sex, :man %>男性</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :sex, :woman %>女性</label>
+  </div>
+<br>
+  <div class="field">
+    <b><%= f.label :age, "年齢" %></b><br>
+    <label><%= f.radio_button :age, 17 %>〜17</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :age, 25 %>18〜25</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :age, 35 %>26〜35</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :age, 45 %>36〜45</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :age, 55 %>46〜55</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :age, 65 %>56〜65</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :age, 99 %>66〜</label>
+  </div>
+    <br>
+  <div class="field">
+    <b><%= f.label :place, "住所" %></b><br>
+    <label><%= f.radio_button :place, '北海道' %>北海道</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :place, '東北' %>東北</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :place, '関東' %>関東甲信</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :place, '北陸' %>北陸</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :place, '東海' %>東海</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :place, '近畿' %>近畿</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :place, '中国' %>中国</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :place, '四国' %>四国</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :place, '九州沖縄' %>九州・沖縄</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :place, '海外' %>海外</label>
+  </div>
+    <br>
+  <div class="field">
+    <b><%= f.label :job, '仕事' %></b><br>
+    <label><%= f.radio_button :job, '会社員' %>会社員，公務員，団体職員</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :job, '自営業' %>自営業</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :job, 'クラウドワーカー' %>クラウドワーカー</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :job, '主婦' %>主婦・主夫</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :job, '大学生' %>大学生/大学院生</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :job, '高校生' %>高校生</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :job, 'そのほか' %>その他</label>
+  </div>
+<br>
+  <div class="field">
+    <b><%= f.label :machine, '何を使ってこの作業を行なっていますか?' %></b><br>
+    <label><%= f.radio_button :machine, 'PC' %>PC</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :machine, 'タブレット' %>タブレット</label>&nbsp;&nbsp;
+    <label><%= f.radio_button :machine, 'スマートフォン' %>スマートフォン</label>&nbsp;&nbsp;
+  </div>
+<br>
+  <div class="field">
+    <%= f.hidden_field :user_id, :value => current_user.id %>
+  </div>
+
+  <div class="field">
+    <b><%= f.label :motivation ,'この仕事を行っていただくきっかけを教えてください' %></b><br>
+    <%= f.text_area :motivation ,:class => "form-control", :rows => 6  %>&nbsp;&nbsp;
+  </div>
+<br>
+  <div class="actions">
+    <%= f.submit "次へ",:class => "btn btn-primary"  %>
+  </div>
+<% end %>

@@ -1,0 +1,5 @@
+<p><%= @resource.username %>様</p>
+
+<p>アカウントはロックされています．以下のリンクでロックを解除できます</p>
+
+<p><%= link_to 'アカウントロックの解除', unlock_url(@resource, unlock_token: @token) %></p>

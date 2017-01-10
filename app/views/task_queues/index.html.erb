@@ -1,0 +1,19 @@
+<h1>現在のタスク一覧</h1>
+<table class="table table-bordered">
+  <tr>
+    <th>User</th>
+    <th>Start</th>
+    <th>Elapsed</th>
+    <th>Genre</th>
+    <th>Tweet</th>
+  </tr>
+  <% @tasks.each do |t| %>
+  <tr>
+    <td><%= t.user.username %></td>
+    <td><%= t.created_at %></td>
+    <td><%= Time.now.to_i - t.created_at.to_i %>s</td>
+    <td><%= t.tweet.genre.genre_name %></td>
+    <td><%= t.tweet.tweet %></td>
+  </tr>
+  <% end %>
+</table>

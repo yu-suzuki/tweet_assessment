@@ -1,0 +1,69 @@
+<h1>ユーザ一覧</h1>
+<h2>グループ状況</h2>
+<table class="table table-striped">
+  <tr>
+    <th>グループ名</th>
+    <th>アクティブユーザ</th>
+    <th>全ユーザ</th>
+  </tr>
+  <% (0..5).each do |i| %>
+      <tr>
+        <th><%= i %></th>
+        <td><%= @groups_oneday[i] %></td>
+        <td><%= @groups[i] %></td>
+      </tr>
+  <% end %>
+</table>
+
+<h2>ユーザ一覧</h2>
+<table class="table table-striped">
+  <tr>
+    <th>名前</th>
+    <th>login</th>
+    <th>ログイン回数</th>
+    <th>Type</th>
+    <th>Ratings</th>
+    <th>star</th>
+    <th>red card</th>
+    <th>評価数</th>
+    <th>ポイント</th>
+    <th>評価済</th>
+  </tr>
+  <% @users.each do |u| %>
+      <tr>
+        <td><% if u.locked %>
+              🔑
+              <% end %><%= link_to u.username, u, :target => '_blank' %>
+          <% if u.locked %>
+              🔑
+          <% end %><br><%= u.email %></td>
+        <td><%= u.current_sign_in_at %></td>
+        <td><%= u.sign_in_count %></td>
+        <td><%= u.team %></td>
+        <td><%= u.rate %>
+        </td>
+        <td><% u.star.times do %>✨<% end %></td>
+        <td><% u.red_card.times do %>❌<% end %></td>
+        <td>
+          <% if u.team == 0 %>
+              <b>
+                <span class="important">
+              <%= u.evaluations.count  %>
+                </span>
+              </b>
+          <% else %>
+
+              <%= u.evaluations.count  %>
+          <% end %>
+        </td>
+        <td>
+          <% if u.team == 0 %>
+              <%= u.point %>
+          <% else %>
+              <b><span class="important"><%= u.point %></span></b>
+          <% end %>
+        </td>
+        <td><%= u.comment.text if u.comment %></td>
+      </tr>
+  <% end %>
+</table>

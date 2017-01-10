@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Sex:</strong>
+  <%= @enquete.sex %>
+</p>
+
+<p>
+  <strong>Age:</strong>
+  <%= @enquete.age %>
+</p>
+
+<p>
+  <strong>Place:</strong>
+  <%= @enquete.place %>
+</p>
+
+<p>
+  <strong>Job:</strong>
+  <%= @enquete.job %>
+</p>
+
+<p>
+  <strong>Machine:</strong>
+  <%= @enquete.machine %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @enquete.user_id %>
+</p>
+
+<p>
+  <strong>Motivation:</strong>
+  <%= @enquete.motivation %>
+</p>
+
+<%= link_to 'Edit', edit_enquete_path(@enquete) %> |
+<%= link_to 'Back', enquetes_path %>
